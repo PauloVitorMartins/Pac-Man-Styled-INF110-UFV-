@@ -1,7 +1,7 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
 
-char mapaPacMan[31][29] = {
+char mapa[31][29] = {
     "1111111111111111111111111111",
     "1000000000000110000000000001",
     "1011110111110110111110111101",
