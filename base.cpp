@@ -1,7 +1,10 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
 
-char mapa[31][29] = {
+int linha = 31;
+int coluna = 29;
+
+char mapa[linha][coluna] = {
     "1111111111111111111111111111",
     "1000000000000110000000000001",
     "1011110111110110111110111101",
@@ -89,8 +92,8 @@ int main() {
         // desenhar tudo aqui...
 
         // desenha paredes
-        for(int i=0;i<9;i++)
-            for(int j=0;j<17;j++)
+        for(int i=0;i<linha; i++)
+            for(int j=0;j<coluna;j++)
                 if (mapa[i][j]=='1') {
                     quad.setPosition({j*50.f, i*50.f});
                     window.draw(quad);
