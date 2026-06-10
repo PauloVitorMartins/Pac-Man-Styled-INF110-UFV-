@@ -38,8 +38,8 @@ char mapa[linha][coluna] = {
     "1111111111111111111111111111"
 };
 
-int posx = 7; // posicao do PacMan
-int posy = 6;
+float posx = 10.33; // posicao do PacMan
+float posy = 3;
 
 int main() {
     // cria a janela
@@ -53,7 +53,7 @@ int main() {
     circ.setFillColor(sf::Color(100, 250, 50));
 
     // cria um quadrado de tamanho 50 (a parede)
-    sf::RectangleShape quad({50.f, 50.f});
+    sf::RectangleShape quad({34.f, 34.f});
     quad.setFillColor(sf::Color(0, 100, 200));
 
     // sprites do PacMan
@@ -76,13 +76,13 @@ int main() {
                   if (keyPressed->scancode == sf::Keyboard::Scancode::Escape)
                       window.close();
                   else if (keyPressed->scancode == sf::Keyboard::Scancode::Left)
-                      posx--;   // left key: move o PacMan para esquerda
+                      posx -= 0.2;   // left key: move o PacMan para esquerda
                   else if (keyPressed->scancode == sf::Keyboard::Scancode::Right)
-                      posx++;   // right key: move o PacMan para direita
+                      posx += 0.2;   // right key: move o PacMan para direita
                   else if (keyPressed->scancode == sf::Keyboard::Scancode::Up)
-                      posy--;   // up key: move o PacMan para cima
+                      posy -= 0.2;   // up key: move o PacMan para cima
                   else if (keyPressed->scancode == sf::Keyboard::Scancode::Down)
-                      posy++;   // down key: move o PacMan para baixo
+                      posy += 0.2;   // down key: move o PacMan para baixo
             }
         }
 
@@ -91,16 +91,23 @@ int main() {
 
         // desenhar tudo aqui...
 
-        // desenha paredes
-        for(int i=0;i<linha; i++)
-            for(int j=0;j<coluna;j++)
-                if (mapa[i][j]=='1') {
-                    quad.setPosition({j*50.f, i*50.f});
-                    window.draw(quad);
-                }
+float primeiraColuna = 484.f; // Centraliza no eixo X
+float tamanhoRetangulo = 34.f;
+
+// desenha paredes
+for(int i = 0; i < linha; i++) {
+    for(int j = 0; j < coluna; j++) {
+        // Ignora o caractere nulo '\0' no final de cada string
+        if (mapa[i][j] == '1') {
+            quad.setPosition({primeiraColuna + (j * tamanhoRetangulo), i * tamanhoRetangulo});
+            window.draw(quad);
+        }
+    }
+}
 
         // desenha PacMan
         sprite.setPosition({posx*50.f,posy*50.f});
+        sprite.setScale({0.7083, 0.7083});
         window.draw(sprite);
 
         // termina e desenha o frame corrente
