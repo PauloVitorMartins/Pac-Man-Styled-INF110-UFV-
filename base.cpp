@@ -2,6 +2,7 @@
 #include <iostream>
 
 // paulinho gógó
+//comentario
 
 int mapaPacMan[LINHAS][COLUNAS] = {
     {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
