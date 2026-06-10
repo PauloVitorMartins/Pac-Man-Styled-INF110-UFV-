@@ -1,8 +1,8 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
 
-int linha = 31;
-int coluna = 29;
+const int linha = 31;
+const int coluna = 29;
 
 char mapa[linha][coluna] = {
     "1111111111111111111111111111",
