@@ -110,6 +110,7 @@ for(int i = 0; i < linha; i++) {
         sprite.setScale({0.7083, 0.7083});
         window.draw(sprite);
 
+        //ruan boiola
         // termina e desenha o frame corrente
         window.display();
     }
