@@ -1,10 +1,7 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
 
-const int LINHAS = 31;
-const int COLUNAS = 29; // 28 caracteres do mapa + 1 para o '\0'
-
-char mapaPacMan[LINHAS][COLUNAS] = {
+char mapaPacMan[31][29] = {
     "1111111111111111111111111111",
     "1000000000000110000000000001",
     "1011110111110110111110111101",
