@@ -43,7 +43,7 @@ int posy = 6;
 
 int main() {
     // cria a janela
-    sf::RenderWindow window(sf::VideoMode({800, 600}), "Minha janela");
+    sf::RenderWindow window(sf::VideoMode({1920, 1080}), "Minha janela");
 
     // cria um círculo de raio 50
     sf::CircleShape circ(50.f);
