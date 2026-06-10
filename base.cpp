@@ -38,19 +38,13 @@ char mapa[linha][coluna] = {
     "1111111111111111111111111111"
 };
 
-float posx = 10.33; // posicao do PacMan
+float posx = 10.365; // posicao do PacMan
 float posy = 3;
+int direction;
 
 int main() {
     // cria a janela
-    sf::RenderWindow window(sf::VideoMode({1920, 1080}), "Minha janela");
-
-    // cria um círculo de raio 50
-    sf::CircleShape circ(50.f);
-    // define a posição absoluta do círculo
-    circ.setPosition({10.f, 50.f});
-    // define a cor do círculo (verde)
-    circ.setFillColor(sf::Color(100, 250, 50));
+    sf::RenderWindow window(sf::VideoMode({1920, 1080}), "Minha janela", sf::State::Fullscreen);
 
     // cria um quadrado de tamanho 50 (a parede)
     sf::RectangleShape quad({34.f, 34.f});
@@ -63,6 +57,9 @@ int main() {
         return 0;
     }
     sf::Sprite sprite{texture};
+    sf::Clock clock;
+    sf::Time tempoPassado;
+    sf::Time tempoDePasso = sf::seconds(0.05f);
 
     // executa o programa enquanto a janela está aberta
     while (window.isOpen()) {
@@ -76,18 +73,51 @@ int main() {
                   if (keyPressed->scancode == sf::Keyboard::Scancode::Escape)
                       window.close();
                   else if (keyPressed->scancode == sf::Keyboard::Scancode::Left)
-                      posx -= 0.2;   // left key: move o PacMan para esquerda
+                     direction=1;
                   else if (keyPressed->scancode == sf::Keyboard::Scancode::Right)
-                      posx += 0.2;   // right key: move o PacMan para direita
+                     direction=2;   // right key: move o PacMan para direita
                   else if (keyPressed->scancode == sf::Keyboard::Scancode::Up)
-                      posy -= 0.2;   // up key: move o PacMan para cima
+                     direction=3;   // up key: move o PacMan para cima
                   else if (keyPressed->scancode == sf::Keyboard::Scancode::Down)
-                      posy += 0.2;   // down key: move o PacMan para baixo
+                     direction=4;   // down key: move o PacMan para baixo
             }
         }
 
         // limpa a janela com a cor preta
         window.clear(sf::Color::Black);
+        tempoPassado += clock.restart();
+        if(tempoPassado>=tempoDePasso){
+            if(direction==1){
+                float proxX = posx - 0.1f; 
+                if(mapa[static_cast<int>(posy)][static_cast<int>(proxX)]!='1' &&
+                   mapa[static_cast<int>(posy+0.9f)][static_cast<int>(proxX)]!='1'){
+                    posx = proxX;
+                }
+            }
+            else if(direction==2){
+                float proxX = posx + 0.1f;
+                if(mapa[static_cast<int>(posy)][static_cast<int>(proxX + 0.9f)]!='1' &&
+                   mapa[static_cast<int>(posy + 0.9f)][static_cast<int>(proxX + 0.9f)]!='1'){
+                posx = proxX;
+                }
+            }
+            else if(direction==3){
+                float proxY = posy - 0.1f;
+                if(mapa[static_cast<int>(proxY)][static_cast<int>(posx)]!='1' &&
+                   mapa[static_cast<int>(proxY)][static_cast<int>(posx+0.9f)]!='1'){
+                posy = proxY;
+                }
+            }
+            else if(direction==4){
+                float proxY = posy + 0.1f;
+                if(mapa[static_cast<int>(proxY + 0.9f)][static_cast<int>(posx)]!='1' &&
+                   mapa[static_cast<int>(proxY + 0.9f)][static_cast<int>(posx+0.9f)]!='1'){
+                posy = proxY;
+                }
+            }
+            tempoPassado = sf::Time::Zero;
+        }
+        
 
         // desenhar tudo aqui...
 
@@ -107,7 +137,7 @@ for(int i = 0; i < linha; i++) {
 
         // desenha PacMan
         sprite.setPosition({posx*50.f,posy*50.f});
-        sprite.setScale({0.7083, 0.7083});
+        sprite.setScale({0.7, 0.7});
         window.draw(sprite);
 
         //ruan boiola
