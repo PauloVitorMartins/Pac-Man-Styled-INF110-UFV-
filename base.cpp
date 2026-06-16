@@ -35,8 +35,8 @@ char mapa[31][29] = {    // Mapa do jogo
     "1111111111111111111111111111"
 };
 
-int posx = 1; // posicao do PacMan
-int posy = 1;
+int posx = 13; // posicao do PacMan
+int posy = 17;
 bool isLeft = false;
 bool isRight = false;
 bool isUp = false;
@@ -60,6 +60,9 @@ int main() {
     }
     sf::Sprite sprite{texture};
 
+    sprite.setOrigin({texture.getSize().x / 2.0f, texture.getSize().y / 2.0f});
+    sprite.setScale({34.f/texture.getSize().x, 34.f/texture.getSize().y});
+
     // executa o programa enquanto a janela está aberta
     sf::Clock relogioMovimento;
     while (window.isOpen()) {
@@ -75,24 +78,28 @@ int main() {
                       window.close();
                       
                   else if (keyPressed->scancode == sf::Keyboard::Scancode::Left){
+                      sprite.setRotation(sf::degrees(180));
                       isLeft = true;
                       isRight = false; 
                       isUp = false;
                       isDown = false;
                   }
                   else if (keyPressed->scancode == sf::Keyboard::Scancode::Right){
+                      sprite.setRotation(sf::degrees(0));
                       isLeft = false;
                       isRight = true;
                       isUp = false;
                       isDown = false;
                   }
                   else if (keyPressed->scancode == sf::Keyboard::Scancode::Up){
+                      sprite.setRotation(sf::degrees(270));
                       isLeft = false;
                       isRight = false;
                       isUp = true;
                       isDown = false;
                   }     
                   else if (keyPressed->scancode == sf::Keyboard::Scancode::Down){
+                      sprite.setRotation(sf::degrees(90));
                       isLeft = false;
                       isRight = false;
                       isUp = false;
@@ -135,8 +142,8 @@ int main() {
                 }
 
         // desenha PacMan
-        sprite.setPosition({484.f + (posx * 34.f), 13.f + (posy * 34.f)});
-        sprite.setScale({34.f/texture.getSize().x, 34.f/texture.getSize().y});
+        
+        sprite.setPosition({484.f + (posx * 34.f) + 17.f, 13.f + (posy * 34.f) + 17.f});
         window.draw(sprite);
 
         // termina e desenha o frame corrente
