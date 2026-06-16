@@ -35,8 +35,12 @@ char mapa[31][29] = {    // Mapa do jogo
     "1111111111111111111111111111"
 };
 
-int posx = 15; // posicao do PacMan
-int posy = 14;
+int posx = 1; // posicao do PacMan
+int posy = 1;
+bool isLeft = false;
+bool isRight = false;
+bool isUp = false;
+bool isDown = false;
 
 int main() {
     // cria a janela
@@ -57,13 +61,13 @@ int main() {
     sf::Sprite sprite{texture};
 
     // executa o programa enquanto a janela está aberta
+    sf::Clock relogioMovimento;
     while (window.isOpen()) {
 
         
 
         // verifica todos os eventos que foram acionados na janela desde a última iteração do loop
         while (const std::optional event = window.pollEvent()) {
-            // evento "fechar" acionado: fecha a janela
             if (event->is<sf::Event::Closed>())
                 window.close();
             else if (const auto* keyPressed = event->getIf<sf::Event::KeyPressed>()) {
@@ -71,24 +75,50 @@ int main() {
                       window.close();
                       
                   else if (keyPressed->scancode == sf::Keyboard::Scancode::Left){
-                  if (mapa[posy][posx - 1] != '1')
-                      posx--;   // left key: move o PacMan para esquerda
+                      isLeft = true;
+                      isRight = false; 
+                      isUp = false;
+                      isDown = false;
                   }
-                    
                   else if (keyPressed->scancode == sf::Keyboard::Scancode::Right){
-                    if (mapa[posy][posx + 1] != '1')
-                      posx++;   // right key: move o PacMan para direita
+                      isLeft = false;
+                      isRight = true;
+                      isUp = false;
+                      isDown = false;
                   }
                   else if (keyPressed->scancode == sf::Keyboard::Scancode::Up){
-                    if (mapa[posy - 1][posx] != '1')
-                      posy--;   // up key: move o PacMan para cima
+                      isLeft = false;
+                      isRight = false;
+                      isUp = true;
+                      isDown = false;
                   }     
                   else if (keyPressed->scancode == sf::Keyboard::Scancode::Down){
-                    if (mapa[posy + 1][posx] != '1')
-                      posy++;   // down key: move o PacMan para baixo
-                  }   
-                           
+                      isLeft = false;
+                      isRight = false;
+                      isUp = false;
+                      isDown = true;
+                  }            
             }
+        }
+
+
+        if (relogioMovimento.getElapsedTime().asSeconds() > 0.15f) {
+            
+            if (isLeft && mapa[posy][posx - 1] != '1') {
+                posx--;
+            }
+            else if (isRight && mapa[posy][posx + 1] != '1') {
+                posx++;
+            }
+            else if (isUp && mapa[posy - 1][posx] != '1') {
+                posy--;
+            }
+            else if (isDown && mapa[posy + 1][posx] != '1') {
+                posy++;
+            }
+
+            // Após mover, zera o cronômetro para começar a contar até 0.15s de novo
+            relogioMovimento.restart(); 
         }
 
         // limpa a janela com a cor preta
