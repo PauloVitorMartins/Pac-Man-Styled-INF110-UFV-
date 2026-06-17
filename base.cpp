@@ -5,7 +5,7 @@ char mapa[31][29] = {    // Mapa do jogo
     "1111111111111111111111111111",
     "1000000000000110000000000001",
     "1011110111110110111110111101",
-    "1011110111110110111110111101",
+    "1311110111110110111110111131",
     "1011110111110110111110111101",
     "1000000000000000000000000001",
     "1011110110111111110110111101",
@@ -25,7 +25,7 @@ char mapa[31][29] = {    // Mapa do jogo
     "1000000000000110000000000001",
     "1011110111110110111110111101",
     "1011110111110110111110111101",
-    "1000110000000000000000110001",
+    "1300110000000000000000110031",
     "1110110110111111110110110111",
     "1110110110111111110110110111",
     "1000000110000110000110000001",
@@ -54,7 +54,15 @@ int main() {
     // cria uma bolinha(pontos) de tamanho 2
     sf::RectangleShape quad({34.f, 34.f});
     sf::CircleShape bolinha({float(3.5)});
-    bolinha.setFillColor(sf::Color(255, 255, 255));
+    sf::Color corPreenchimento(0, 0, 0, 0); // Azul bem translúcido para o fundo do corredor
+    sf::Color corBorda(0, 50, 255);
+    sf::CircleShape bolinhaGrande({float(6.5)});
+    sf::RectangleShape linhaHorizontal({34.f, 2.f});
+    sf::RectangleShape linhaVertical({2.f, 34.f});
+    linhaHorizontal.setFillColor(corBorda);
+    linhaVertical.setFillColor(corBorda);
+    bolinha.setFillColor(sf::Color(255, 255, 180));
+    bolinhaGrande.setFillColor(sf::Color(255, 255, 180));
     quad.setFillColor(sf::Color(0, 150, 255, 100));
     quad.setOutlineColor(sf::Color(0, 50, 255));
     quad.setOutlineThickness(-2.f);
@@ -161,6 +169,10 @@ sf::Texture textureAberta;
                 mapa[posy][posx]='2';
                 score+=10;
             }
+            else if(mapa[posy][posx]=='3'){
+                mapa[posy][posx]='2';
+                score+=50;
+            }
             if (posx >= 28) {
             posx = -1;
             posxf = -1; // Teleporta o visual junto
@@ -196,15 +208,44 @@ sf::Texture textureAberta;
         // desenha paredes
         for(int i=0;i<31;i++)
             for(int j=0;j<29;j++){
-                if (mapa[i][j]=='1') {
-                    quad.setPosition({484.f + (j*34.f), 13.f + (i*34.f)});
+                    float xAtual = 484.f + (j * 34.f);
+                    float yAtual = 13.f + (i * 34.f);
+                if (mapa[i][j] == '1') {
+
+                    quad.setFillColor(corPreenchimento);
+                    quad.setOutlineThickness(0.f); // Desliga o contorno antigo que gerava a "grade"
+                    quad.setPosition({xAtual, yAtual});
                     window.draw(quad);
+                
+               if (i == 0 || mapa[i - 1][j] != '1') {
+                linhaHorizontal.setPosition({xAtual, yAtual});
+                window.draw(linhaHorizontal);
                 }
+                if (i == 30 || mapa[i + 1][j] != '1') {
+                  linhaHorizontal.setPosition({xAtual, yAtual + 32.f}); // 34 - 2 de espessura
+                  window.draw(linhaHorizontal);
+                } 
+                if (j == 0 || mapa[i][j - 1] != '1') {
+                    linhaVertical.setPosition({xAtual, yAtual});
+                    window.draw(linhaVertical);
+                }
+                if (j == 28 || mapa[i][j + 1] != '1') {
+                  linhaVertical.setPosition({xAtual + 32.f, yAtual}); // 34 - 2 de espessura
+                  window.draw(linhaVertical);
+               }
+               }
                 if(mapa[i][j]=='0'){
                     //centralizam a bolinha de diâmetro 7 dentro do bloco 
-                     bolinha.setPosition({497.5f + (j*34.f), 26.5f + (i*34.f)});
+                    bolinha.setPosition({497.5f + (j*34.f), 26.5f + (i*34.f)});
                     window.draw(bolinha);
-}
+                
+                }
+                if(mapa[i][j]=='3'){
+                    //centralizam a bolinha de diâmetro 7 dentro do bloco 
+                    bolinhaGrande.setPosition({495.5f + (j*34.f), 23.5f + (i*34.f)});
+                    window.draw(bolinhaGrande);
+                }
+           
             }
 
         // desenha PacMan
