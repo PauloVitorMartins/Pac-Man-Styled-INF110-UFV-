@@ -37,6 +37,7 @@ char mapa[31][29] = {    // Mapa do jogo
 
 int posx = 13; // posicao do PacMan
 int posy = 17;
+int score=0;
 bool isLeft = false;
 bool isRight = false;
 bool isUp = false;
@@ -48,6 +49,8 @@ int main() {
 
     // cria um quadrado de tamanho 50 (a parede)
     sf::RectangleShape quad({34.f, 34.f});
+    sf::CircleShape bolinha({8.f});
+    bolinha.setFillColor(sf::Color(255, 255, 255));
     quad.setFillColor(sf::Color(0, 150, 255, 100));
     quad.setOutlineColor(sf::Color(0, 50, 255));
     quad.setOutlineThickness(-2.f);
@@ -62,13 +65,19 @@ int main() {
 
     sprite.setOrigin({texture.getSize().x / 2.0f, texture.getSize().y / 2.0f});
     sprite.setScale({34.f/texture.getSize().x, 34.f/texture.getSize().y});
-
+    sf::Font font;
+    if (!font.openFromFile("arial.ttf"))
+    {
+      std::cout << "Erro lendo fonte arial\n";
+      return 0;
+    }
+    sf::Text text(font);
+    text.setCharacterSize(50);
+    text.setFillColor(sf::Color::Yellow);
+    text.setPosition({0, 0});
     // executa o programa enquanto a janela está aberta
     sf::Clock relogioMovimento;
     while (window.isOpen()) {
-
-        
-
         // verifica todos os eventos que foram acionados na janela desde a última iteração do loop
         while (const std::optional event = window.pollEvent()) {
             if (event->is<sf::Event::Closed>())
@@ -113,15 +122,23 @@ int main() {
             
             if (isLeft && mapa[posy][posx - 1] != '1') {
                 posx--;
+                
             }
             else if (isRight && mapa[posy][posx + 1] != '1') {
                 posx++;
+               
             }
             else if (isUp && mapa[posy - 1][posx] != '1') {
                 posy--;
+                
             }
             else if (isDown && mapa[posy + 1][posx] != '1') {
                 posy++;
+                
+            }
+            if(mapa[posy][posx]=='0'){
+                mapa[posy][posx]='2';
+                score+=10;
             }
 
             // Após mover, zera o cronômetro para começar a contar até 0.15s de novo
@@ -135,16 +152,23 @@ int main() {
 
         // desenha paredes
         for(int i=0;i<31;i++)
-            for(int j=0;j<29;j++)
+            for(int j=0;j<29;j++){
                 if (mapa[i][j]=='1') {
                     quad.setPosition({484.f + (j*34.f), 13.f + (i*34.f)});
                     window.draw(quad);
                 }
+                if(mapa[i][j]=='0'){
+                    bolinha.setPosition({492.f + (j*34.f), 22.f + (i*34.f)});
+                    window.draw(bolinha);
+                }
+            }
 
         // desenha PacMan
-        
         sprite.setPosition({484.f + (posx * 34.f) + 17.f, 13.f + (posy * 34.f) + 17.f});
         window.draw(sprite);
+        // desenha o Score
+        text.setString("SCORE: " + std::to_string(score));
+        window.draw(text);
 
         // termina e desenha o frame corrente
         window.display();
