@@ -162,12 +162,12 @@ sf::Texture textureAberta;
                 score+=10;
             }
             if (posx >= 28) {
-            posx = 0;
-            posxf = 0; // Teleporta o visual junto
+            posx = -1;
+            posxf = -1; // Teleporta o visual junto
         }
             else if (posx <= -1) {
-            posx = 27;
-            posxf = 27; // Teleporta o visual junto
+            posx = 28;
+            posxf = 28; // Teleporta o visual junto
         }
         
             // Após mover, zera o cronômetro para começar a contar até 0.15s de novo
