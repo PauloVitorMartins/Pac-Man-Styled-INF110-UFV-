@@ -37,6 +37,8 @@ char mapa[31][29] = {    // Mapa do jogo
 
 int posx = 13; // posicao do PacMan
 int posy = 17;
+float posxf = 13.0f; // Nova variável
+float posyf = 17.0f; // Nova variável
 int score=0;
 bool isLeft = false;
 bool isRight = false;
@@ -46,6 +48,7 @@ bool isDown = false;
 int main() {
     // cria a janela
     sf::RenderWindow window(sf::VideoMode({1920, 1080}), "Minha janela", sf::State::Fullscreen);
+    window.setFramerateLimit(60);
 
     // cria um quadrado de tamanho 50 (a parede)
     sf::RectangleShape quad({34.f, 34.f});
@@ -116,7 +119,8 @@ int main() {
                   }            
             }
         }
-
+         posxf += (posx - posxf ) * 0.2f;
+         posyf += (posy - posyf) * 0.2f;
 
         if (relogioMovimento.getElapsedTime().asSeconds() > 0.15f) {
             
@@ -140,15 +144,19 @@ int main() {
                 mapa[posy][posx]='2';
                 score+=10;
             }
-            if(posx>=27.5){
-                posx=0;
-            }
-            if(posx<=-0.5){
-                posx=27;
-            }
+            if (posx >= 27) {
+            posx = 0;
+            posxf = 0; // Teleporta o visual junto
+        }
+            if (posx <= 0) {
+            posx = 27;
+            posxf = 27; // Teleporta o visual junto
+        }
+        
             // Após mover, zera o cronômetro para começar a contar até 0.15s de novo
             relogioMovimento.restart(); 
         }
+
 
         // limpa a janela com a cor preta
         window.clear(sf::Color::Black);
@@ -169,7 +177,7 @@ int main() {
             }
 
         // desenha PacMan
-        sprite.setPosition({484.f + (posx * 34.f) + 17.f, 13.f + (posy * 34.f) + 17.f});
+        sprite.setPosition({484.f + (posxf * 34.f) + 17.f, 13.f + (posyf * 34.f) + 17.f});
         window.draw(sprite);
         // desenha o Score
         text.setString("SCORE: " + std::to_string(score));
