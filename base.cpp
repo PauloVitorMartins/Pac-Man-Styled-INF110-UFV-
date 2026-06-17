@@ -37,8 +37,8 @@ char mapa[31][29] = {    // Mapa do jogo
 
 int posx = 13; // posicao do PacMan
 int posy = 17;
-float posxf = 13.0f; // Nova variável
-float posyf = 17.0f; // Nova variável
+float posxf = 13.0f; 
+float posyf = 17.0f; 
 int score=0;
 bool isLeft = false;
 bool isRight = false;
@@ -50,9 +50,10 @@ int main() {
     sf::RenderWindow window(sf::VideoMode({1920, 1080}), "Minha janela", sf::State::Fullscreen);
     window.setFramerateLimit(60);
 
-    // cria um quadrado de tamanho 50 (a parede)
+    // cria um quadrado de tamanho 34 (a parede)
+    // cria uma bolinha(pontos) de tamanho 2
     sf::RectangleShape quad({34.f, 34.f});
-    sf::CircleShape bolinha({8.f});
+    sf::CircleShape bolinha({float(3.5)});
     bolinha.setFillColor(sf::Color(255, 255, 255));
     quad.setFillColor(sf::Color(0, 150, 255, 100));
     quad.setOutlineColor(sf::Color(0, 50, 255));
@@ -172,9 +173,10 @@ int main() {
                     window.draw(quad);
                 }
                 if(mapa[i][j]=='0'){
-                    bolinha.setPosition({492.f + (j*34.f), 22.f + (i*34.f)});
+                    //centralizam a bolinha de diâmetro 7 dentro do bloco 
+                     bolinha.setPosition({497.5f + (j*34.f), 26.5f + (i*34.f)});
                     window.draw(bolinha);
-                }
+}
             }
 
         // desenha PacMan
