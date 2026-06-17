@@ -59,15 +59,28 @@ int main() {
     quad.setOutlineThickness(-2.f);
 
     // sprites do PacMan
-    sf::Texture texture;
-    if (!texture.loadFromFile("pacman.png")) {
+sf::Texture textureAberta;
+    if (!textureAberta.loadFromFile("pacman.png")) {
         std::cout << "Erro lendo imagem pacman.png\n";
         return 0;
     }
-    sf::Sprite sprite{texture};
 
-    sprite.setOrigin({texture.getSize().x / 2.0f, texture.getSize().y / 2.0f});
-    sprite.setScale({34.f/texture.getSize().x, 34.f/texture.getSize().y});
+    sf::Texture textureMeio;
+    if (!textureMeio.loadFromFile("pacman1.png")) {
+        std::cout << "Erro lendo imagem pacman1.png\n";
+        return 0;
+    }
+
+    sf::Texture textureFechada;
+    if (!textureFechada.loadFromFile("pacman2.png")) {
+        std::cout << "Erro lendo imagem pacman2.png\n";
+        return 0;
+    }
+
+    sf::Sprite sprite{textureAberta};
+    sprite.setOrigin({textureAberta.getSize().x / 2.0f, textureAberta.getSize().y / 2.0f});
+    sprite.setScale({34.f / textureAberta.getSize().x, 34.f / textureAberta.getSize().y});
+
     sf::Font font;
     if (!font.openFromFile("arial.ttf"))
     {
@@ -81,6 +94,8 @@ int main() {
     
     // executa o programa enquanto a janela está aberta
     sf::Clock relogioMovimento;
+    sf::Clock relogioAnimacao;
+
     while (window.isOpen()) {
         // verifica todos os eventos que foram acionados na janela desde a última iteração do loop
         while (const std::optional event = window.pollEvent()) {
@@ -156,6 +171,19 @@ int main() {
         
             // Após mover, zera o cronômetro para começar a contar até 0.15s de novo
             relogioMovimento.restart(); 
+        }
+
+        float tempoAnimacao = relogioAnimacao.getElapsedTime().asSeconds();
+        if (tempoAnimacao < 0.1f) {
+            sprite.setTexture(textureAberta);
+        } else if (tempoAnimacao >= 0.1f && tempoAnimacao < 0.2f) {
+            sprite.setTexture(textureMeio);
+        } else if (tempoAnimacao >= 0.2f && tempoAnimacao < 0.3f) {
+            sprite.setTexture(textureFechada);
+        } else if (tempoAnimacao >= 0.3f && tempoAnimacao < 0.4f) {
+            sprite.setTexture(textureMeio); // Voltando a abrir
+        } else {
+            relogioAnimacao.restart(); // Reseta o ciclo de animação
         }
 
 
