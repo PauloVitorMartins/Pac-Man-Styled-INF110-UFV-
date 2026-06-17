@@ -146,7 +146,7 @@ sf::Texture textureAberta;
         }
          posxf += (posx - posxf ) * 0.2f;
          posyf += (posy - posyf) * 0.2f;
-
+        //m
         if (relogioMovimento.getElapsedTime().asSeconds() > 0.15f) {
             
             if (isLeft && mapa[posy][posx - 1] != '1') {
