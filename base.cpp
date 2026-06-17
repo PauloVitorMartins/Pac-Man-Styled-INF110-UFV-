@@ -78,7 +78,7 @@ int main() {
     text.setCharacterSize(50);
     text.setFillColor(sf::Color::Yellow);
     text.setPosition({0, 0});
-    
+
     // executa o programa enquanto a janela está aberta
     sf::Clock relogioMovimento;
     while (window.isOpen()) {
@@ -145,11 +145,11 @@ int main() {
                 mapa[posy][posx]='2';
                 score+=10;
             }
-            if (posx >= 27) {
+            if (posx >= 28) {
             posx = 0;
             posxf = 0; // Teleporta o visual junto
         }
-            if (posx <= 0) {
+            else if (posx <= -1) {
             posx = 27;
             posxf = 27; // Teleporta o visual junto
         }
