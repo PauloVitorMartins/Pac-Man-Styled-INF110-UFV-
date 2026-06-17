@@ -140,7 +140,12 @@ int main() {
                 mapa[posy][posx]='2';
                 score+=10;
             }
-
+            if(posx>=27.5){
+                posx=0;
+            }
+            if(posx<=-0.5){
+                posx=27;
+            }
             // Após mover, zera o cronômetro para começar a contar até 0.15s de novo
             relogioMovimento.restart(); 
         }
