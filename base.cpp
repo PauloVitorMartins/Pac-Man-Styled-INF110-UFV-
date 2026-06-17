@@ -34,7 +34,7 @@ char mapa[31][29] = {    // Mapa do jogo
     "1000000000000000000000000001",
     "1111111111111111111111111111"
 };
-
+//m
 int posx = 13; // posicao do PacMan
 int posy = 17;
 float posxf = 13.0f; 
