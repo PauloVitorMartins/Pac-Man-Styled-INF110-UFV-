@@ -107,40 +107,32 @@ sf::Texture textureAberta;
                       window.close();
                       
                   else if (keyPressed->scancode == sf::Keyboard::Scancode::Left){
-                      if(mapa[posy][posx - 1] != '1'){  
                       sprite.setRotation(sf::degrees(180));
                       isLeft = true;
                       isRight = false; 
                       isUp = false;
                       isDown = false;
-                      }
                   }
                   else if (keyPressed->scancode == sf::Keyboard::Scancode::Right){
-                      if(mapa[posy][posx + 1] != '1'){
                       sprite.setRotation(sf::degrees(0));
                       isLeft = false;
                       isRight = true;
                       isUp = false;
                       isDown = false;
-                      }
                   }
                   else if (keyPressed->scancode == sf::Keyboard::Scancode::Up){
-                      if(mapa[posy - 1][posx] != '1'){
                       sprite.setRotation(sf::degrees(270));
                       isLeft = false;
                       isRight = false;
                       isUp = true;
                       isDown = false;
-                      }
                   }     
                   else if (keyPressed->scancode == sf::Keyboard::Scancode::Down){
-                      if(mapa[posy + 1][posx] != '1'){
                       sprite.setRotation(sf::degrees(90));
                       isLeft = false;
                       isRight = false;
                       isUp = false;
                       isDown = true;
-                      }
                   }            
             }
         }
