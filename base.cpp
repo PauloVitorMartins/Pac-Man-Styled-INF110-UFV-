@@ -78,6 +78,7 @@ int main() {
     text.setCharacterSize(50);
     text.setFillColor(sf::Color::Yellow);
     text.setPosition({0, 0});
+    
     // executa o programa enquanto a janela está aberta
     sf::Clock relogioMovimento;
     while (window.isOpen()) {
